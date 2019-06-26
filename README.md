@@ -13,9 +13,9 @@ You may add arbitrary custom links to the flat navigation by adding lines to the
 Example configuration:
 
 ```
-Help | https://fake.edu/moodle-help | local_navigation_customizer:question | grades
-Google | https://www.google.com | t/go | grades
-One more | https://www.example.com | t/calc | 1
+Test   | www.example.com                    | t/calc                                 | participants
+Report | /a/fake/report?courseid={COURSEID} | local_navigation_customizer:t/envelope
+Google | www.google.com
 ```
 
 Note that the first line requires the use of custom icon mappings (see below).
@@ -30,7 +30,9 @@ The URL it will link to; relative URLs should work.
 
 ### Icon
 
-This item should reference a Moodle icon identifier. These look like `t/calc`, `i/edit`, etc. If you're referencing a base Moodle icon, you need only specify this part. If you are referencing an icon that is part of a component, you will need to add the namespace followed by a colon, like so: `mod_assign:gradefeedback`.
+_Defaults to no icon._
+
+This item should reference a Moodle icon identifier. These look like `t/calc`, `i/edit`, etc. If you're referencing a base Moodle icon, you need only specify this part. If you are referencing an icon that is part of a component, you will need to add the namespace followed by a colon, like so: `mod_assign:gradefeedback`. To use a custom icon added with this plugin, be sure to prepend `local_navigation_customizer:`.
 
 Examples:
 
@@ -43,6 +45,8 @@ local_navigation_customizer:t/envelope
 Here is a somewhat outdated (list of available Moodle icons)[https://docs.moodle.org/dev/images_dev/e/e8/Moodle_icons_24.pdf].
 
 ### Position
+
+_Defaults to "grades"._
 
 The "position" argument is a navigation node identifier. The custom link will be added to the navigation _before_ the node corresponding to this identifier. For example, if you enter `participants` here, your custom link will appear above the Participants link in the flat navigation. You can determine the identifier key of any given navigation node by examining the HTML `<a>` element; the key is in the `data-key` property. In a standard course, the navigation structure is:
 
@@ -76,4 +80,28 @@ t/envelope | fa-envelope
 
 This will allow you to use the `fa-envelope` icon elsewhere in the configuration by referencing `local_navigation_customizer:t/envelope`.
 
-_You must refresh your cache after changing this configuration option._
+**You must refresh your cache after changing this configuration option.**
+
+# Troubleshooting
+
+## My custom flatnav link isn't showing up.
+
+* You must be on a course page.
+* You must be using a theme that supports flat navigation (Boost based).
+* Your URL must be valid (at the moment it is run through PHP's `var_filter` with `FILTER_SANITIZE_URL`)
+* Your label cannot include any weird stuff
+* You must provide a valid "position" argument (see above)
+
+## I see a notice like `Navigation node add_before: Reference node not found , options: participants badgesview competencies grades 1 2 3 4 5`
+
+The "position" argument of one of your custom flatnav links is invalid. The notice provides a list of possible valid keys to pass here. You can also use the inspection tool to view the "data-key" property of any `<a>` element in the flatnav, and use that as the position argument.
+
+## My custom flatnav link doesn't have an icon.
+
+You may have specified an invalid icon identifier. Here is the best available (list of Moodle icons)[https://docs.moodle.org/dev/images_dev/e/e8/Moodle_icons_24.pdf].
+
+If you are attempting to reference an icon you've added via the custom links functionality of this plugin, remember that you must prepend `local_navigation_customizer` to the icon identifier like so: `local_navigation_customizer:t/envelope`. The corresponding custom icon configuration would be:
+
+```
+t/envelope | fa-envelope
+```

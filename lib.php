@@ -17,7 +17,7 @@ function local_navigation_customizer_extend_navigation($navigation)
             $label    = $link->getLabel();
             $url      = $link->getURL();
             $icon     = $link->getIcon();
-            $position = $link->getPosition();
+            $position = $link->getPosition() ?? 'grades';
             $key      = $link->getKey();
 
             $node = $navigation->create(
@@ -34,11 +34,7 @@ function local_navigation_customizer_extend_navigation($navigation)
     }
 }
 
-function local_navigation_customizer_register_link($label, $url, $icon, $position)
-{
-
-}
-
 function local_navigation_customizer_get_fontawesome_icon_map() {
-    return (new CustomIconsConfig)->getMap();
+    $map = (new CustomIconsConfig)->getMap();
+    return $map;
 }

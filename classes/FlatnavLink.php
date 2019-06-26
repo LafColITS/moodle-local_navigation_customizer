@@ -45,7 +45,7 @@ class FlatnavLink
             $this->icon = new \pix_icon($icon_id, '', $icon_namespace);
         }
 
-        $this->position = count($line_array) > 3 ? $this->validatePosition($line_array[3]) : '';
+        $this->position = count($line_array) > 3 ? $this->validatePosition($line_array[3]) : null;
     }
 
     public function isValid(): bool
@@ -71,29 +71,27 @@ class FlatnavLink
 
     public function validateURL(?string $string): ?string
     {
-        return $string;
+        return filter_var($string, FILTER_SANITIZE_URL);
     }
 
     public function validateIconID(?string $string): ?string
     {
-        return $string;
+        return preg_match('/^[a-z\-\_\/]*$/', $string) ? $string : null;
     }
 
     public function validateIconNamespace(?string $string): ?string
     {
-        return $string;
+        return preg_match('/^[a-z\_]*$/', $string) ? $string : null;
     }
 
     public function validatePosition(?string $string): ?string
     {
-        return $string;
+        return preg_match('/^[a-z\-\_]*$/', $string) ? $string : null;
     }
 
     public function parseIcon($raw)
     {
-        if (strpos($raw, 'fa-') === 0) {
-
-        } elseif (strpos($raw, ':') !== false) {
+        if (strpos($raw, ':') !== false) {
             $array  = explode(':', $raw);
             $result = [
                 'id'        => $array[1],
