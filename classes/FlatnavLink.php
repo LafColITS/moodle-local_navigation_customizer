@@ -34,6 +34,9 @@ class FlatnavLink
             return;
         }
 
+        $this->label = $this->applyTokens($this->label);
+        $this->url   = $this->applyTokens($this->url);
+
         if (count($line_array) > 2) {
             $icon_array     = $this->parseIcon($line_array[2]);
             $icon_id        = $this->validateIconID($icon_array['id']);
