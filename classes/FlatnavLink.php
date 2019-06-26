@@ -26,8 +26,8 @@ class FlatnavLink
 
     public function parseLineArray($line_array)
     {
-        $this->label = $this->validateLabel($line_array[0]);
-        $this->url   = $this->validateURL($line_array[1]);
+        $this->label = count($line_array) > 0 ? $this->validateLabel($line_array[0]) : null;
+        $this->url   = count($line_array) > 1 ? $this->validateURL($line_array[1]) : null;
 
         if(!is_string($this->label) || !is_string($this->url)) {
             $this->valid = false;

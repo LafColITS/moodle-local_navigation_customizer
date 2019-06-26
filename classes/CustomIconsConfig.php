@@ -15,7 +15,9 @@ class CustomIconsConfig extends MultilineConfig
         $this->map = [];
 
         array_walk($parsed, function($subarray, $id) {
-            $this->map['local_navigation_customizer:' . $subarray[0]] = $subarray[1];
+            if (count($subarray) > 1) {
+                $this->map['local_navigation_customizer:' . $subarray[0]] = $subarray[1];
+            }
         });
     }
 
