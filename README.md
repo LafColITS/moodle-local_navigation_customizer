@@ -7,7 +7,7 @@
 You may add arbitrary custom links to the flat navigation by adding lines to the "Custom flatnav links" textarea. Each line represents a single link. The items are as follows:
 
 ```
-<link text> | <url> | <namespace>:<icon> | <position>
+<link text/label> | <url> | <namespace>:<icon> | <position>
 ```
 
 Example configuration:
